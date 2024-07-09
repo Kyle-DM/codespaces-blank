@@ -1,6 +1,22 @@
 import { NavLink } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/config";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/usersSlice.js";
+
+
 
 function Header({pageTitle}) {
+
+  function handleSignOut() {
+    if(confirm("Are you sure?"))
+ {   signOut(auth).then(() => {
+  dispatch(setUser(null))
+    }).catch((error) => {
+      // An error happened.
+      console.log(error)
+    });}
+  }
 
     return (
       <>
@@ -21,7 +37,7 @@ function Header({pageTitle}) {
                       </button>
                     </NavLink>
 
-                    <button className="btn transparent">
+                    <button onClick={handleSignOut} className="btn transparent">
                       Logout
                     </button>
 
